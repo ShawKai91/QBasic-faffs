@@ -1,0 +1,27 @@
+fileno = FREEFILE
+
+open "save.scr" for binary as #fileno
+
+for a = 1 to 640
+ for b = 1 to 480
+  get #fileno, , point(a,b)
+ next b
+next a
+
+close filen
+
+and to load the screen back up,
+
+
+fileno = FREEFILE
+
+open "save.scr" for binary as #fileno
+
+for a = 1 to 640
+ for b = 1 to 480
+  put #fileno, , x
+  pset(a,b),x
+ next b
+next a
+
+close filen
