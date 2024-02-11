@@ -1,14 +1,22 @@
 REM made by Shaw Kai (c) 2020
 
+DECLARE SUB MakeFile ()
 DECLARE SUB TitleScreen ()
 DECLARE SUB PlayAgain (Game AS STRING)
 TYPE Menu: level AS STRING * 25: Discription AS STRING * 50: END TYPE
 TYPE Difficulty: level AS LONG: Tries AS INTEGER: END TYPE
 
 REM  declares the varibles used in the program
-DIM cursery AS INTEGER, opt AS INTEGER, optmax AS INTEGER: optmax = 10
+DIM cursery AS INTEGER, opt AS INTEGER, optmax AS INTEGER: optmax = 11
 DIM Anwser AS LONG, Guess AS LONG, Last AS STRING * 10
 DIM SHARED Difficulty(optmax) AS Difficulty, Menu(optmax) AS Menu
+
+OPEN "\MenuData.dat" FOR BINARY AS #1
+    IF LOF(1) = 0 THEN
+        CLOSE #1
+        CALL MakeFile
+    END IF
+CLOSE #1
 
 OPEN "MenuData.dat" FOR INPUT AS #1
 FOR i = 0 TO optmax - 1
@@ -48,6 +56,21 @@ InputGuess:
         END SELECT
     WEND
     PlayAgain ("Lose"): GOTO DMenu
+
+SUB MakeFile
+OPEN "MenuData.dat" FOR OUTPUT AS #1
+    WRITE #1, "Easy", "between 1 and 10, 5 Tries", 10, 5
+    WRITE #1, "Medium", "Between 1 and 50, 10 Tries", 50, 10
+    WRITE #1, "Hard", "Between 1 and 100, 15 Tries", 100, 15
+    WRITE #1, "Extreme", "Between 1 and 200, 20 Tries", 200, 20
+    WRITE #1, "Brutal", "Between 1 and 500, 20 Tries", 500, 20
+    WRITE #1, "Mega_Brutal", "Between 1 and 1000, 15 Tries", 1000, 15
+    WRITE #1, "Near_Impossible", "Between 1 and 5000, 15 Tries", 5000, 15
+    WRITE #1, "Insane", "Between 1 and 10000, 10 Tries", 10000, 10
+    WRITE #1, "Absurd", "Between 1 and 50000, 10 Tries", 50000, 10
+    WRITE #1, "Inconceivable", "Between 1 and 100000, 5 Tries", 100000, 5
+    WRITE #1, "Impossible", "Between 1 and 1000000, 5 Tries", 1000000, 5
+END SUB
 
 SUB PlayAgain (Game AS STRING)
 DIM Again AS STRING, test AS STRING
